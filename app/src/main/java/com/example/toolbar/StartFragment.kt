@@ -22,7 +22,7 @@ class StartFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
+        //setHasOptionsMenu(true)
     }
 
     override fun onCreateView(
@@ -38,9 +38,9 @@ class StartFragment : Fragment() {
 
         binding.startButton.setOnClickListener{goToNextFragment()}
 
-       // binding.materialToolbar.inflateMenu(R.menu.toolbar_menu)
+        //binding.Toolbar.inflateMenu(R.menu.toolbar_menu)
 
-       // (activity as AppCompatActivity).setSupportActionBar(binding.materialToolbar)
+        //(activity as AppCompatActivity).setSupportActionBar(binding.Toolbar)
 
     }
 
@@ -54,8 +54,5 @@ class StartFragment : Fragment() {
     }
     
 
-    override fun onCreateOptionsMenu(menu: Menu, menuInflater: MenuInflater){
-        menuInflater.inflate(R.menu.toolbar_menu, menu)
-    }
 
 }
