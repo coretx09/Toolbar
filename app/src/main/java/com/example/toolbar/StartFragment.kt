@@ -5,7 +5,9 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.setupActionBarWithNavController
 import com.example.toolbar.databinding.FragmentStartBinding
 
 
@@ -19,11 +21,9 @@ class StartFragment : Fragment() {
 
     private var _binding: FragmentStartBinding? = null
     private val binding get() = _binding!!
+    private var isVolume = true
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        //setHasOptionsMenu(true)
-    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,9 +38,23 @@ class StartFragment : Fragment() {
 
         binding.startButton.setOnClickListener{goToNextFragment()}
 
-        //binding.Toolbar.inflateMenu(R.menu.toolbar_menu)
+        binding.Toolbar.setOnMenuItemClickListener{
+            when(it.itemId) {
+                R.id.volume -> {
+                    isVolume =! isVolume
+                    updateToolBar()
+                    true
+                }
+                R.id.about -> {
+                    goToNextFragment()
+                    true
+                }
 
-        //(activity as AppCompatActivity).setSupportActionBar(binding.Toolbar)
+                else -> false
+            }
+        }
+
+        //binding.Toolbar.inflateMenu(R.menu.toolbar_menu)
 
     }
 
@@ -52,7 +66,16 @@ class StartFragment : Fragment() {
     fun goToNextFragment(){
         findNavController().navigate(R.id.action_startFragment_to_nextFragment)
     }
-    
+
+    fun updateToolBar() {
+        val volumeIcon = binding.Toolbar.menu.findItem(R.id.volume)
+        volumeIcon.icon =
+            if (isVolume)
+                ContextCompat.getDrawable(this.requireContext(), R.drawable.ic_baseline_volume_up_24)
+        else ContextCompat.getDrawable(this.requireContext(), R.drawable.ic_baseline_volume_off_24)
+
+    }
+
 
 
 }
