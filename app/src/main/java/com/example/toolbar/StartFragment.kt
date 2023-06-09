@@ -6,8 +6,12 @@ import androidx.fragment.app.Fragment
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
 import com.example.toolbar.databinding.FragmentStartBinding
 
 
@@ -22,6 +26,9 @@ class StartFragment : Fragment() {
     private var _binding: FragmentStartBinding? = null
     private val binding get() = _binding!!
     private var isVolume = true
+    private var isAbout = true
+
+    //private var drawerLayout: DrawerLayout? = null
 
 
 
@@ -36,12 +43,23 @@ class StartFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+
+        val navController = findNavController()
+
+//setOf(R.id.startFragment, R.id.settingFragment),
+
+        val appBarConfiguration = AppBarConfiguration(navController.graph, binding.drawerLayout)
+        binding.toolbar.setupWithNavController(navController, appBarConfiguration)
+        binding.navView.setupWithNavController(navController)
+
+
+
         binding.startButton.setOnClickListener{goToNextFragment()}
 
-        binding.Toolbar.setOnMenuItemClickListener{
+        binding.toolbar.setOnMenuItemClickListener{
             when(it.itemId) {
                 R.id.volume -> {
-                    isVolume =! isVolume
+                   isVolume = !isVolume
                     updateToolBar()
                     true
                 }
@@ -64,15 +82,19 @@ class StartFragment : Fragment() {
     }
 
     fun goToNextFragment(){
-        findNavController().navigate(R.id.action_startFragment_to_nextFragment)
+        //R.id.action_startFragment_to_nextFragment
+        findNavController().navigate(StartFragmentDirections.actionStartFragmentToNextFragment("starter/about"))
     }
 
     fun updateToolBar() {
-        val volumeIcon = binding.Toolbar.menu.findItem(R.id.volume)
+        val volumeIcon = binding.toolbar.menu.findItem(R.id.volume)
         volumeIcon.icon =
             if (isVolume)
+                // get drawlabe by contextcompat
                 ContextCompat.getDrawable(this.requireContext(), R.drawable.ic_baseline_volume_up_24)
-        else ContextCompat.getDrawable(this.requireContext(), R.drawable.ic_baseline_volume_off_24)
+        //else ContextCompat.getDrawable(this.requireContext(), R.drawable.ic_baseline_volume_off_24)
+        // get drawlable by Resourse compat
+        else ResourcesCompat.getDrawable(resources, R.drawable.ic_baseline_volume_off_24, null)
 
     }
 

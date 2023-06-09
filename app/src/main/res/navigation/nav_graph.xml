@@ -3,20 +3,36 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    android:label="@string/start"
+    android:label="@string/starter"
     app:startDestination="@id/startFragment">
 
     <fragment
         android:id="@+id/startFragment"
         android:name="com.example.toolbar.StartFragment"
-        android:label="Start"
+        android:label="Starter"
         tools:layout="@layout/fragment_start">
         <action
             android:id="@+id/action_startFragment_to_nextFragment"
-            app:destination="@id/nextFragment" />
+            app:destination="@id/nextFragment">
+            <argument
+                android:name="argName"
+                app:argType="string"
+                android:defaultValue="About"/>
+        </action>
     </fragment>
     <fragment
         android:id="@+id/nextFragment"
         android:name="com.example.toolbar.NextFragment"
-        tools:layout="@layout/fragment_next" />
+        android:label="{argName}"
+        tools:layout="@layout/fragment_next" >
+        <argument
+            android:name="argName"
+            app:argType="string"
+            android:defaultValue="Next" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingFragment"
+        android:name="com.example.toolbar.SettingFragment"
+        android:label="fragment_setting"
+        tools:layout="@layout/fragment_setting" />
 </navigation>
